@@ -2,8 +2,12 @@ import cv2
 import numpy as np
 import os
 
-os.makedirs('storage/uploads', exist_ok=True)
-os.makedirs('storage/tampering', exist_ok=True)
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+UPLOAD_DIR = os.path.join(BASE_DIR, 'storage', 'uploads')
+TAMPER_DIR = os.path.join(BASE_DIR, 'storage', 'tampering')
+
+os.makedirs(UPLOAD_DIR, exist_ok=True)
+os.makedirs(TAMPER_DIR, exist_ok=True)
 
 def create_demo_image(name, text, color=(200,200,200), size=(600,400)):
     img = np.zeros((size[1], size[0], 3), dtype=np.uint8)
@@ -21,7 +25,7 @@ def create_demo_image(name, text, color=(200,200,200), size=(600,400)):
     cv2.putText(img, 'P<INDSHARMA<<ADITI<<<<<<<<<<<<<<<<<<<<<<<<<<<<', (60, y+20), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0,0,0), 1)
     cv2.putText(img, 'Z12345678IND9003157F3001099<<<<<<<<<<<<<<<0', (60, y+40), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0,0,0), 1)
     
-    cv2.imwrite(f'storage/uploads/{name}', img)
+    cv2.imwrite(os.path.join(UPLOAD_DIR, name), img)
 
 create_demo_image('valid_passport.jpg', [
     'Name: ADITI SHARMA',
@@ -62,7 +66,7 @@ def create_visa_image(name, text, color=(200,200,200)):
         cv2.putText(img, line, (60, y), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0,0,0), 1)
         y += 30
     
-    cv2.imwrite(f'storage/uploads/{name}', img)
+    cv2.imwrite(os.path.join(UPLOAD_DIR, name), img)
 
 create_visa_image('valid_visa.jpg', [
     'Name: ADITI SHARMA',
@@ -99,7 +103,7 @@ def create_face_image(name):
     cv2.rectangle(img, (0,0), (200,200), (180,180,180), -1)
     cv2.circle(img, (100, 80), 40, (100,100,100), -1)
     cv2.ellipse(img, (100, 180), (60, 40), 0, 0, 180, (100,100,100), -1)
-    cv2.imwrite(f'storage/uploads/{name}', img)
+    cv2.imwrite(os.path.join(UPLOAD_DIR, name), img)
 
 create_face_image('face_doc.jpg')
 create_face_image('face_live.jpg')
